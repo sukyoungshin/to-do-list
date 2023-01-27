@@ -17,6 +17,17 @@ const App = () => {
     });
   };
 
+  const updateTodo = (e: any) => {
+    const { id, checked } = e.target;
+    setTodo((todos.find((todo: any) => todo.id === id).done = checked));
+  };
+
+  const deleteTodo = (e: any) => {
+    const { id } = e.target;
+    setTodos(todos.filter((todolist: any) => todolist.id !== id));
+  };
+  const deleteAll = () => setTodos([]);
+
   const submitHandler = (e: any) => {
     e.preventDefault();
     setTodos([...todos, todo]);
@@ -44,18 +55,22 @@ const App = () => {
           todos.map((todolist: any) => {
             return (
               <ToDoList key={todolist.id}>
-                <input type='checkbox' />
-                <span>{todolist['todo']}</span>
+                <Checkbox type='checkbox' id={todolist.id} onChange={updateTodo} />
+                <Span lineThrough={todolist.done}>{todolist['todo']}</Span>
                 <ButtonWrapper>
                   <button type='button'>수정</button>
-                  <button type='button'>삭제</button>
+                  <button type='button' id={todolist.id} onClick={deleteTodo}>
+                    삭제
+                  </button>
                 </ButtonWrapper>
               </ToDoList>
             );
           })}
       </ToDoLists>
       <div>
-        <button type='button'>전체삭제</button>
+        <button type='button' onClick={deleteAll}>
+          전체삭제
+        </button>
       </div>
     </Container>
   );
@@ -111,6 +126,21 @@ const ToDoList = styled.li`
   &:hover {
     background-color: rgba(0, 0, 0, 0.1);
   }
+`;
+const Checkbox = styled.input`
+  margin-right: 8px;
+  width: 16px;
+  height: 16px;
+  accent-color: green;
+`;
+const Span = styled.span<{
+  lineThrough: boolean;
+}>`
+  width: calc(100% - 110px);
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  text-decoration: ${(props) => props.lineThrough && 'line-through green'};
 `;
 
 const ButtonWrapper = styled.div`
