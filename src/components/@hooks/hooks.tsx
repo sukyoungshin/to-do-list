@@ -1,5 +1,5 @@
 import React, { FormEvent, useState } from 'react';
-import { AllToDos, HTMLElementEvent, ToDo } from 'components/@utils/type';
+import { AllToDos, ToDo } from 'components/@utils/type';
 
 export const useTodos = () => {
   const [allToDos, setAllToDos] = useState<AllToDos>([]);
@@ -25,8 +25,8 @@ export const useTodos = () => {
     setTodo(toggleTodo);
   };
 
-  const deleteTodo = (e: HTMLElementEvent<HTMLButtonElement>) => {
-    const { id: selectedId } = e.target;
+  const deleteTodo = (e: React.MouseEvent) => {
+    const { id: selectedId } = e.currentTarget;
     const exceptSelectedToDo = allToDos.filter((toDo) => toDo.id !== selectedId);
 
     setAllToDos(exceptSelectedToDo);
@@ -63,8 +63,8 @@ export const useModal = (allToDos: AllToDos) => {
   const [currentTodo, setCurrentToDo] = useState('');
   const [currentTodoObj, setCurrentTodoObj] = useState<ToDo>({ id: '', todo: '', done: false });
 
-  const modalHandler = (e: HTMLElementEvent<HTMLButtonElement>) => {
-    const { id: selectedId } = e.target;
+  const modalHandler = (e: React.MouseEvent) => {
+    const { id: selectedId } = e.currentTarget;
 
     setModalShow(true);
     setCurrentToDo(allToDos.find((toDo) => toDo.id === selectedId)?.todo ?? '');

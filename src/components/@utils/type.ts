@@ -1,9 +1,7 @@
+import { MouseEventHandler } from 'react';
+
 export type AllToDos = ToDo[];
 export type ToDo = { id: string; todo: string; done: boolean };
-
-export type HTMLElementEvent<T extends HTMLElement> = Event & {
-  target: T;
-};
 
 export type ModalComponentProps = {
   modalShow: boolean;
@@ -27,5 +25,5 @@ export type SvgIconButtonProps = {
   size: 'half' | 'full';
   iconName: 'edit' | 'delete' | 'close';
   id?: string;
-  onClick?: (e: HTMLElementEvent<HTMLButtonElement>) => void;
+  onClick?: MouseEventHandler;
 };
