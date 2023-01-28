@@ -42,7 +42,7 @@ export const useTodos = () => {
   const submitHandler = (e: FormEvent) => {
     e.preventDefault();
     setAllToDos([...allToDos, todo]);
-    setTodo({ id: '', todo: '', done: false }); // reset todo
+    setTodo({ id: '', todo: '', done: false });
   };
 
   return {
