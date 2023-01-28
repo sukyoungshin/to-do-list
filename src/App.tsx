@@ -7,6 +7,8 @@ const App = () => {
   const [todo, setTodo] = useState<any>({});
   const addTodo = (e: any) => {
     const { value, name } = e.target;
+    if (value === '') return;
+
     const randomId = (Date.now() * Math.ceil(Math.random() * 2)).toString();
 
     setTodo({
@@ -17,16 +19,22 @@ const App = () => {
     });
   };
 
-  const updateTodo = (e: any) => {
+  const checkTodo = (e: any) => {
     const { id, checked } = e.target;
-    setTodo((todos.find((todo: any) => todo.id === id).done = checked));
+    const currentTodo = todos.filter((todo: any) => (todo.id === id ? (todo.done = checked) : todo));
+
+    setTodo(currentTodo);
   };
 
   const deleteTodo = (e: any) => {
     const { id } = e.target;
     setTodos(todos.filter((todolist: any) => todolist.id !== id));
   };
-  const deleteAll = () => setTodos([]);
+  const deleteAll = () => {
+    const userConfirm = window.confirm('작성된 투두를 전부 삭제하시겠습니까?');
+    if (!userConfirm) return;
+    setTodos([]);
+  };
 
   const submitHandler = (e: any) => {
     e.preventDefault();
@@ -50,12 +58,12 @@ const App = () => {
         />
         <SubmitButton type='submit'>등록</SubmitButton>
       </ToDoForm>
-      <ToDoLists>
+      <ToDoLists isVisible={todos.length > 0}>
         {todos.length > 0 &&
           todos.map((todolist: any) => {
             return (
               <ToDoList key={todolist.id}>
-                <Checkbox type='checkbox' id={todolist.id} onChange={updateTodo} />
+                <Checkbox type='checkbox' id={todolist.id} onChange={checkTodo} />
                 <Span lineThrough={todolist.done}>{todolist['todo']}</Span>
                 <ButtonWrapper>
                   <button type='button'>수정</button>
@@ -67,11 +75,14 @@ const App = () => {
             );
           })}
       </ToDoLists>
-      <div>
-        <button type='button' onClick={deleteAll}>
+      <InfoWrapper>
+        <DeleteAll type='button' onClick={deleteAll}>
           전체삭제
-        </button>
-      </div>
+        </DeleteAll>
+        <Info>
+          남은 할일: {todos.filter((todo: any) => todo.done === false).length} / 전체 할일: {todos.length}
+        </Info>
+      </InfoWrapper>
     </Container>
   );
 };
@@ -96,6 +107,7 @@ const ToDoForm = styled.form`
 `;
 
 const ToDoInput = styled.input`
+  padding-left: 8px;
   width: calc(100% - 80px);
   border: none;
 `;
@@ -105,15 +117,21 @@ const SubmitButton = styled.button`
   border: none;
 `;
 
-const ToDoLists = styled.ul`
-  padding: 0;
-  list-style: none;
+const ToDoLists = styled.ul<{
+  isVisible: boolean;
+}>`
+  ${(props) =>
+    props.isVisible &&
+    `
+      padding: 0;
+      list-style: none;
 
-  max-height: 500px;
-  overflow-y: auto;
-  scrollbar-gutter: auto;
+      max-height: 500px;
+      overflow-y: auto;
+      scrollbar-gutter: auto;
 
-  box-shadow: 0px 0px 2px rgb(0 0 0 / 10%);
+      box-shadow: 0px 0px 2px rgb(0 0 0 / 10%);
+  `}
 `;
 
 const ToDoList = styled.li`
@@ -145,4 +163,19 @@ const Span = styled.span<{
 
 const ButtonWrapper = styled.div`
   margin-left: auto;
+`;
+
+const InfoWrapper = styled.div`
+  display: flex;
+  align-items: center;
+`;
+const DeleteAll = styled.button`
+  margin-right: auto;
+  width: 80px;
+  height: 32px;
+  border: 0;
+`;
+const Info = styled.span`
+  font-size: 14px;
+  color: rgba(0, 0, 0, 0.5);
 `;
