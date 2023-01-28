@@ -2,11 +2,12 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 
 const App = () => {
-  const [todos, setTodos] = useState<any>([]);
+  const [allToDos, setAllToDos] = useState<any>([]);
+  const restToDos = allToDos.filter((todo: any) => todo.done === false);
 
   const [todo, setTodo] = useState<any>({});
   const addTodo = (e: any) => {
-    const { value, name } = e.target;
+    const { name, value } = e.target;
     if (value === '') return;
 
     const randomId = (Date.now() * Math.ceil(Math.random() * 2)).toString();
@@ -20,25 +21,27 @@ const App = () => {
   };
 
   const checkTodo = (e: any) => {
-    const { id, checked } = e.target;
-    const currentTodo = todos.filter((todo: any) => (todo.id === id ? (todo.done = checked) : todo));
+    const { id: selectedId, checked } = e.target;
+    const toggleTodo = allToDos.filter((todo: any) => (todo.id === selectedId ? (todo.done = checked) : todo));
 
-    setTodo(currentTodo);
+    setTodo(toggleTodo);
   };
 
   const deleteTodo = (e: any) => {
-    const { id } = e.target;
-    setTodos(todos.filter((todolist: any) => todolist.id !== id));
+    const { id: selectedId } = e.target;
+    const exceptSelectedToDo = allToDos.filter((toDo: any) => toDo.id !== selectedId);
+
+    setAllToDos(exceptSelectedToDo);
   };
   const deleteAll = () => {
     const userConfirm = window.confirm('작성된 투두를 전부 삭제하시겠습니까?');
     if (!userConfirm) return;
-    setTodos([]);
+    setAllToDos([]);
   };
 
   const submitHandler = (e: any) => {
     e.preventDefault();
-    setTodos([...todos, todo]);
+    setAllToDos([...allToDos, todo]);
     setTodo({ id: '', todo: '', done: false }); // reset todo
   };
 
@@ -58,16 +61,16 @@ const App = () => {
         />
         <SubmitButton type='submit'>등록</SubmitButton>
       </ToDoForm>
-      <ToDoLists isVisible={todos.length > 0}>
-        {todos.length > 0 &&
-          todos.map((todolist: any) => {
+      <ToDoLists isVisible={allToDos.length > 0}>
+        {allToDos.length > 0 &&
+          allToDos.map((toDo: any) => {
             return (
-              <ToDoList key={todolist.id}>
-                <Checkbox type='checkbox' id={todolist.id} onChange={checkTodo} />
-                <Span lineThrough={todolist.done}>{todolist['todo']}</Span>
+              <ToDoList key={toDo.id}>
+                <Checkbox type='checkbox' id={toDo.id} onChange={checkTodo} />
+                <Span lineThrough={toDo.done}>{toDo['todo']}</Span>
                 <ButtonWrapper>
                   <button type='button'>수정</button>
-                  <button type='button' id={todolist.id} onClick={deleteTodo}>
+                  <button type='button' id={toDo.id} onClick={deleteTodo}>
                     삭제
                   </button>
                 </ButtonWrapper>
@@ -80,7 +83,7 @@ const App = () => {
           전체삭제
         </DeleteAll>
         <Info>
-          남은 할일: {todos.filter((todo: any) => todo.done === false).length} / 전체 할일: {todos.length}
+          남은 할 일: {restToDos.length} / 전체 할 일: {allToDos.length}
         </Info>
       </InfoWrapper>
     </Container>
