@@ -16,7 +16,7 @@ const ModalComponent = ({
 }: ModalComponentProps) => {
   const updateToDo = (e: React.ChangeEvent<HTMLTextAreaElement>) => setCurrentToDo(e.target.value);
 
-  const submitToDo = (e: Event) => {
+  const submitToDo = (e: React.MouseEvent) => {
     e.preventDefault();
     const newTodo = { ...currentTodoObj, todo: currentTodo };
     const exclude = allToDos.filter((toDo) => toDo.id !== currentTodoObj.id);

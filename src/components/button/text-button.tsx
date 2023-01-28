@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { TextButtonProps } from 'components/@utils/type';
 
 const TextButton = ({ type, buttonType, textMessage, onClick }: TextButtonProps) => {
-  let Button: any;
+  let Button;
   if (buttonType === 'edit') {
     Button = EditButton;
   } else if (buttonType === 'deleteAll') {

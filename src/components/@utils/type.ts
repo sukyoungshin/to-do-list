@@ -17,7 +17,7 @@ export type TextButtonProps = {
   type: 'button' | 'submit';
   buttonType: 'edit' | 'deleteAll' | 'submit' | undefined;
   textMessage: string;
-  onClick?: (e: Event) => void;
+  onClick?: MouseEventHandler;
 };
 
 export type SvgIconButtonProps = {
