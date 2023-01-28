@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
+import { createPortal } from 'react-dom';
 import styled from 'styled-components';
+import { AiOutlineEdit, AiOutlineDelete, AiOutlineClose } from 'react-icons/ai';
 
 const App = () => {
   const [allToDos, setAllToDos] = useState<any>([]);
@@ -8,8 +10,6 @@ const App = () => {
   const [todo, setTodo] = useState<any>({});
   const addTodo = (e: any) => {
     const { name, value } = e.target;
-    if (value === '') return;
-
     const randomId = (Date.now() * Math.ceil(Math.random() * 2)).toString();
 
     setTodo({
@@ -34,6 +34,8 @@ const App = () => {
     setAllToDos(exceptSelectedToDo);
   };
   const deleteAll = () => {
+    if (allToDos.length === 0) return;
+
     const userConfirm = window.confirm('작성된 투두를 전부 삭제하시겠습니까?');
     if (!userConfirm) return;
     setAllToDos([]);
@@ -43,6 +45,26 @@ const App = () => {
     e.preventDefault();
     setAllToDos([...allToDos, todo]);
     setTodo({ id: '', todo: '', done: false }); // reset todo
+  };
+
+  const [modalShow, setModalShow] = useState(false);
+  const [currentTodo, setCurrentToDo] = useState('');
+  const [currentTodoObj, setCurrentTodoObj] = useState<any>({});
+  const modalHandler = (e: any) => {
+    const { id: selectedId } = e.target;
+
+    setModalShow(true); // 모달 오픈
+    setCurrentToDo((allToDos.length > 0 && allToDos.find((o: any) => o.id === selectedId).todo) ?? '');
+    setCurrentTodoObj(allToDos.length > 0 && allToDos.find((o: any) => o.id === selectedId));
+  };
+
+  const updateTodo = (e: any) => {
+    e.preventDefault();
+    const newTodo = { ...currentTodoObj, todo: currentTodo };
+    const exclude = allToDos.filter((o: any) => o.id !== currentTodoObj.id);
+
+    setAllToDos([newTodo, ...exclude]);
+    setModalShow(false);
   };
 
   return (
@@ -69,10 +91,12 @@ const App = () => {
                 <Checkbox type='checkbox' id={toDo.id} onChange={checkTodo} />
                 <Span lineThrough={toDo.done}>{toDo['todo']}</Span>
                 <ButtonWrapper>
-                  <button type='button'>수정</button>
-                  <button type='button' id={toDo.id} onClick={deleteTodo}>
-                    삭제
-                  </button>
+                  <HalfButton type='button' id={toDo.id} onClick={modalHandler}>
+                    <AiOutlineEdit />
+                  </HalfButton>
+                  <HalfButton type='button' id={toDo.id} onClick={deleteTodo}>
+                    <AiOutlineDelete />
+                  </HalfButton>
                 </ButtonWrapper>
               </ToDoList>
             );
@@ -86,6 +110,28 @@ const App = () => {
           남은 할 일: {restToDos.length} / 전체 할 일: {allToDos.length}
         </Info>
       </InfoWrapper>
+      {/* 포탈 */}
+      {createPortal(
+        <ModalBackground isVisible={modalShow}>
+          <Modal>
+            <CloseButton type='button' onClick={() => setModalShow(false)}>
+              <AiOutlineClose />
+            </CloseButton>
+            <TextArea
+              placeholder='수정할 투두 내용을 입력하세요. 최대 입력글자는 50글자 입니다.'
+              value={currentTodo}
+              onChange={(e: any) => setCurrentToDo(e.target.value)}
+              maxLength={50}
+              autoFocus
+              required
+            />
+            <UpdateButton type='button' onClick={updateTodo}>
+              수정
+            </UpdateButton>
+          </Modal>
+        </ModalBackground>,
+        document.body
+      )}
     </Container>
   );
 };
@@ -115,9 +161,28 @@ const ToDoInput = styled.input`
   border: none;
 `;
 
-const SubmitButton = styled.button`
-  width: 80px;
+const DefaultButton = styled.button`
+  height: 32px;
   border: none;
+  border-radius: 4px;
+
+  & > svg {
+    pointer-events: none;
+  }
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.2);
+  }
+`;
+
+const HalfButton = styled(DefaultButton)`
+  width: 50%;
+  background-color: rgba(0, 0, 0, 0.1);
+  border-radius: 0;
+`;
+
+const SubmitButton = styled(DefaultButton)`
+  width: 80px;
 `;
 
 const ToDoLists = styled.ul<{
@@ -157,7 +222,7 @@ const Checkbox = styled.input`
 const Span = styled.span<{
   lineThrough: boolean;
 }>`
-  width: calc(100% - 110px);
+  width: calc(100% - 112px);
   overflow: hidden;
   text-overflow: ellipsis;
 
@@ -166,19 +231,65 @@ const Span = styled.span<{
 
 const ButtonWrapper = styled.div`
   margin-left: auto;
+  width: 80px;
 `;
 
 const InfoWrapper = styled.div`
   display: flex;
   align-items: center;
 `;
-const DeleteAll = styled.button`
+const DeleteAll = styled(DefaultButton)`
   margin-right: auto;
   width: 80px;
-  height: 32px;
-  border: 0;
 `;
 const Info = styled.span`
   font-size: 14px;
   color: rgba(0, 0, 0, 0.5);
+`;
+
+const ModalBackground = styled.div<{
+  isVisible: boolean;
+}>`
+  display: ${(props) => (props.isVisible ? 'block' : 'none')};
+
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.1);
+
+  position: absolute;
+  top: 0;
+  left: 0;
+`;
+
+const Modal = styled.div`
+  padding: 16px;
+  width: 500px;
+  height: 200px;
+  background-color: white;
+  border-radius: 8px;
+
+  position: absolute;
+  top: 70px;
+  left: 50%;
+  transform: translateX(-50%);
+`;
+
+const CloseButton = styled(DefaultButton)`
+  display: block;
+  margin-left: auto;
+  margin-bottom: 16px;
+`;
+
+const TextArea = styled.textarea`
+  margin-bottom: 16px;
+  padding: 8px;
+  width: 100%;
+  height: 100px;
+
+  resize: none;
+  box-sizing: border-box;
+`;
+
+const UpdateButton = styled(DefaultButton)`
+  width: 100%;
 `;
