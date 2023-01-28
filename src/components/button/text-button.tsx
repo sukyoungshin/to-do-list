@@ -1,14 +1,8 @@
-import { COLORS } from 'style-util';
+import { COLORS } from 'components/@utils/style-util';
 import styled from 'styled-components';
+import { TextButtonProps } from 'components/@utils/type';
 
-type Props = {
-  type: 'button' | 'submit';
-  buttonType: 'edit' | 'deleteAll' | 'submit' | undefined;
-  textMessage: string;
-  onClick?: (e: any) => void;
-};
-
-const TextButton = ({ type, buttonType, textMessage, onClick }: Props) => {
+const TextButton = ({ type, buttonType, textMessage, onClick }: TextButtonProps) => {
   let Button: any;
   if (buttonType === 'edit') {
     Button = EditButton;

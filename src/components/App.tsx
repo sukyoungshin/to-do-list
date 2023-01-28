@@ -1,9 +1,8 @@
 import styled from 'styled-components';
 import { useModal, useTodos } from './@hooks/hooks';
-import { COLORS, FONTSIZE } from 'style-util';
+import { COLORS, FONTSIZE } from 'components/@utils/style-util';
 import ModalComponent from './Modal';
-import SvgIconButton from './button/svg-icon-button';
-import TextButton from './button/text-button';
+import { TextButton, SvgIconButton } from './button';
 
 const App = () => {
   const { addTodo, checkTodo, deleteTodo, deleteAll, submitHandler, allToDos, setAllToDos, restToDos, todo } =
@@ -18,7 +17,7 @@ const App = () => {
           type='text'
           placeholder='할 일을 적으세요'
           name='todo'
-          value={todo['todo']}
+          value={todo.todo}
           onChange={addTodo}
           maxLength={50}
           autoFocus
@@ -28,11 +27,11 @@ const App = () => {
       </ToDoForm>
       <ToDoLists isVisible={allToDos.length > 0}>
         {allToDos.length > 0 &&
-          allToDos.map((toDo: any) => {
+          allToDos.map((toDo) => {
             return (
               <ToDoList key={toDo.id}>
                 <Checkbox type='checkbox' id={toDo.id} onChange={checkTodo} />
-                <Span lineThrough={toDo.done}>{toDo['todo']}</Span>
+                <Span lineThrough={toDo.done}>{toDo.todo}</Span>
                 <Buttons>
                   <SvgIconButton type='button' id={toDo.id} size='half' iconName='edit' onClick={modalHandler} />
                   <SvgIconButton type='button' id={toDo.id} size='half' iconName='delete' onClick={deleteTodo} />

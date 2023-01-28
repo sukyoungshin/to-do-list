@@ -1,11 +1,12 @@
-import { useState } from 'react';
+import React, { FormEvent, useState } from 'react';
+import { AllToDos, HTMLElementEvent, ToDo } from 'components/@utils/type';
 
 export const useTodos = () => {
-  const [allToDos, setAllToDos] = useState<any>([]);
-  const restToDos = allToDos.filter((todo: any) => todo.done === false);
+  const [allToDos, setAllToDos] = useState<AllToDos>([]);
+  const restToDos = allToDos.filter((todo) => todo.done === false);
 
-  const [todo, setTodo] = useState<any>({});
-  const addTodo = (e: any) => {
+  const [todo, setTodo] = useState<ToDo>({ id: '', todo: '', done: false });
+  const addTodo = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     const randomId = (Date.now() * Math.ceil(Math.random() * 2)).toString();
 
@@ -17,16 +18,16 @@ export const useTodos = () => {
     });
   };
 
-  const checkTodo = (e: any) => {
+  const checkTodo = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id: selectedId, checked } = e.target;
-    const toggleTodo = allToDos.filter((todo: any) => (todo.id === selectedId ? (todo.done = checked) : todo));
+    const toggleTodo: any = allToDos.filter((todo) => (todo.id === selectedId ? (todo.done = checked) : todo));
 
     setTodo(toggleTodo);
   };
 
-  const deleteTodo = (e: any) => {
+  const deleteTodo = (e: HTMLElementEvent<HTMLButtonElement>) => {
     const { id: selectedId } = e.target;
-    const exceptSelectedToDo = allToDos.filter((toDo: any) => toDo.id !== selectedId);
+    const exceptSelectedToDo = allToDos.filter((toDo) => toDo.id !== selectedId);
 
     setAllToDos(exceptSelectedToDo);
   };
@@ -38,7 +39,7 @@ export const useTodos = () => {
     setAllToDos([]);
   };
 
-  const submitHandler = (e: any) => {
+  const submitHandler = (e: FormEvent) => {
     e.preventDefault();
     setAllToDos([...allToDos, todo]);
     setTodo({ id: '', todo: '', done: false }); // reset todo
@@ -57,17 +58,19 @@ export const useTodos = () => {
   };
 };
 
-export const useModal = (allToDos: any) => {
+export const useModal = (allToDos: AllToDos) => {
   const [modalShow, setModalShow] = useState(false);
   const [currentTodo, setCurrentToDo] = useState('');
-  const [currentTodoObj, setCurrentTodoObj] = useState<any>({});
+  const [currentTodoObj, setCurrentTodoObj] = useState<ToDo>({ id: '', todo: '', done: false });
 
-  const modalHandler = (e: any) => {
+  const modalHandler = (e: HTMLElementEvent<HTMLButtonElement>) => {
     const { id: selectedId } = e.target;
 
     setModalShow(true);
-    setCurrentToDo((allToDos.length > 0 && allToDos.find((toDo: any) => toDo.id === selectedId).todo) ?? '');
-    setCurrentTodoObj(allToDos.length > 0 && allToDos.find((toDo: any) => toDo.id === selectedId));
+    setCurrentToDo(allToDos.find((toDo) => toDo.id === selectedId)?.todo ?? '');
+    setCurrentTodoObj(
+      allToDos.find((toDo: { id: string }) => toDo.id === selectedId) ?? { id: '', todo: '', done: false }
+    );
   };
 
   return {

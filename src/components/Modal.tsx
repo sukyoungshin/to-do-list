@@ -1,18 +1,9 @@
+import React from 'react';
 import { createPortal } from 'react-dom';
-import { COLORS } from 'style-util';
+import { COLORS } from 'components/@utils/style-util';
 import styled from 'styled-components';
-import SvgIconButton from './button/svg-icon-button';
-import TextButton from './button/text-button';
-
-type Props = {
-  modalShow: boolean;
-  setModalShow: (args: boolean) => void;
-  currentTodo: string;
-  currentTodoObj: any;
-  setCurrentToDo: (args: string) => void;
-  allToDos: Array<Object>;
-  setAllToDos: (args: any) => void;
-};
+import { ModalComponentProps } from 'components/@utils/type';
+import { TextButton, SvgIconButton } from './button';
 
 const ModalComponent = ({
   modalShow,
@@ -22,11 +13,13 @@ const ModalComponent = ({
   setCurrentToDo,
   allToDos,
   setAllToDos,
-}: Props) => {
-  const updateTodo = (e: any) => {
+}: ModalComponentProps) => {
+  const updateToDo = (e: React.ChangeEvent<HTMLTextAreaElement>) => setCurrentToDo(e.target.value);
+
+  const submitToDo = (e: Event) => {
     e.preventDefault();
     const newTodo = { ...currentTodoObj, todo: currentTodo };
-    const exclude = allToDos.filter((toDo: any) => toDo.id !== currentTodoObj.id);
+    const exclude = allToDos.filter((toDo) => toDo.id !== currentTodoObj.id);
 
     setAllToDos([newTodo, ...exclude]);
     setModalShow(false);
@@ -41,12 +34,12 @@ const ModalComponent = ({
             <TextArea
               placeholder='수정할 투두 내용을 입력하세요. 최대 입력글자는 50글자 입니다.'
               value={currentTodo}
-              onChange={(e: any) => setCurrentToDo(e.target.value)}
+              onChange={updateToDo}
               maxLength={50}
               autoFocus
               required
             />
-            <TextButton type='button' buttonType='edit' textMessage='수정' onClick={updateTodo} />
+            <TextButton type='button' buttonType='edit' textMessage='수정' onClick={submitToDo} />
           </Modal>
         </Background>,
         document.body

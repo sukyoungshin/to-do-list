@@ -1,16 +1,9 @@
 import { AiOutlineClose, AiOutlineDelete, AiOutlineEdit } from 'react-icons/ai';
-import { COLORS } from 'style-util';
+import { COLORS } from 'components/@utils/style-util';
 import styled from 'styled-components';
+import { SvgIconButtonProps } from 'components/@utils/type';
 
-type Props = {
-  type: 'button';
-  size: 'half' | 'full';
-  id?: string;
-  iconName: 'edit' | 'delete' | 'close';
-  onClick?: (e: any) => void;
-};
-
-const SvgIconButton = ({ type, size = 'full', id, iconName, onClick }: Props) => {
+const SvgIconButton = ({ type, size = 'full', id, iconName, onClick }: SvgIconButtonProps) => {
   let Button: any;
   if (size === 'half') {
     Button = HalfButton;
