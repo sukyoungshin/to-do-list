@@ -6,15 +6,13 @@ import { ModalComponentProps } from 'components/@utils/type';
 import { TextButton, SvgIconButton } from '../button';
 
 const ModalComponent = ({
-  modalShow,
-  setModalShow,
   currentTodo,
   currentTodoObj,
   setCurrentToDo,
   allToDos,
   setAllToDos,
+  closeModal
 }: ModalComponentProps) => {
-  const closeModal = () => setModalShow(false);
   const updateToDo = (e: React.ChangeEvent<HTMLTextAreaElement>) => setCurrentToDo(e.target.value);
   const submitToDo = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -22,13 +20,13 @@ const ModalComponent = ({
     const exclude = allToDos.filter((toDo) => toDo.id !== currentTodoObj.id);
 
     setAllToDos([newTodo, ...exclude]);
-    setModalShow(false);
+    closeModal();
   };
 
   return (
     <>
       {createPortal(
-        <Background isVisible={modalShow}>
+        <Background>
           <Modal>
             <SvgIconButton type='button' size='full' iconName='close' onClick={closeModal} />
             <TextArea
@@ -50,11 +48,7 @@ const ModalComponent = ({
 
 export default ModalComponent;
 
-const Background = styled.div<{
-  isVisible: boolean;
-}>`
-  display: ${({ isVisible }) => (isVisible ? 'block' : 'none')};
-
+const Background = styled.div`
   width: 100%;
   height: 100%;
   background-color: ${COLORS.dimBackground};

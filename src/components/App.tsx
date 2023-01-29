@@ -7,7 +7,7 @@ import { TextButton, SvgIconButton } from './button';
 const App = () => {
   const { addTodo, checkTodo, deleteTodo, deleteAll, submitHandler, allToDos, setAllToDos, restToDos, todo } =
     useTodos();
-  const { modalHandler, setCurrentToDo, setModalShow, currentTodoObj, currentTodo, modalShow } = useModal(allToDos);
+  const { modalHandler, setCurrentToDo, closeModal, currentTodoObj, currentTodo, modalShow } = useModal(allToDos);
 
   return (
     <Container>
@@ -46,15 +46,16 @@ const App = () => {
           남은 할 일: {restToDos.length} / 전체 할 일: {allToDos.length}
         </Count>
       </CountWrapper>
-      <ModalComponent
-        modalShow={modalShow}
-        setModalShow={setModalShow}
-        currentTodo={currentTodo}
-        currentTodoObj={currentTodoObj}
-        setCurrentToDo={setCurrentToDo}
-        allToDos={allToDos}
-        setAllToDos={setAllToDos}
-      />
+      {modalShow && (
+        <ModalComponent
+          currentTodo={currentTodo}
+          setCurrentToDo={setCurrentToDo}
+          currentTodoObj={currentTodoObj}
+          allToDos={allToDos}
+          setAllToDos={setAllToDos}
+          closeModal={closeModal}
+        />
+      )}
     </Container>
   );
 };

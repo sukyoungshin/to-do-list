@@ -4,13 +4,12 @@ export type AllToDos = ToDo[];
 export type ToDo = { id: string; todo: string; done: boolean };
 
 export type ModalComponentProps = {
-  modalShow: boolean;
-  setModalShow: (args: boolean) => void;
   currentTodo: string;
   currentTodoObj: ToDo;
   setCurrentToDo: (args: string) => void;
   allToDos: AllToDos;
   setAllToDos: (args: AllToDos) => void;
+  closeModal: () => void;
 };
 
 export type TextButtonProps = {

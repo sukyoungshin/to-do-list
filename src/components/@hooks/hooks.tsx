@@ -63,10 +63,12 @@ export const useModal = (allToDos: AllToDos) => {
   const [currentTodo, setCurrentToDo] = useState('');
   const [currentTodoObj, setCurrentTodoObj] = useState<ToDo>({ id: '', todo: '', done: false });
 
+  const openModal = () => setModalShow(true);
+  const closeModal = () => setModalShow(false);
   const modalHandler = (e: React.MouseEvent) => {
     const { id: selectedId } = e.currentTarget;
 
-    setModalShow(true);
+    openModal();
     setCurrentToDo(allToDos.find((toDo) => toDo.id === selectedId)?.todo ?? '');
     setCurrentTodoObj(
       allToDos.find((toDo: { id: string }) => toDo.id === selectedId) ?? { id: '', todo: '', done: false }
@@ -76,9 +78,9 @@ export const useModal = (allToDos: AllToDos) => {
   return {
     modalHandler,
     setCurrentToDo,
-    setModalShow,
     currentTodoObj,
     currentTodo,
     modalShow,
+    closeModal
   };
 };
