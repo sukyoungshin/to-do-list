@@ -67,12 +67,11 @@ export const useModal = (allToDos: AllToDos) => {
   const closeModal = () => setModalShow(false);
   const modalHandler = (e: React.MouseEvent) => {
     const { id: selectedId } = e.currentTarget;
+    const selectedToDo = allToDos.find((toDo) => toDo.id === selectedId);
 
     openModal();
-    setCurrentToDo(allToDos.find((toDo) => toDo.id === selectedId)?.todo ?? '');
-    setCurrentTodoObj(
-      allToDos.find((toDo: { id: string }) => toDo.id === selectedId) ?? { id: '', todo: '', done: false }
-    );
+    setCurrentToDo(selectedToDo?.todo ?? '');
+    setCurrentTodoObj(selectedToDo ?? { id: '', todo: '', done: false });
   };
 
   return {
@@ -81,6 +80,6 @@ export const useModal = (allToDos: AllToDos) => {
     currentTodoObj,
     currentTodo,
     modalShow,
-    closeModal
+    closeModal,
   };
 };

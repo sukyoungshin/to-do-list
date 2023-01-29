@@ -11,7 +11,7 @@ const ModalComponent = ({
   setCurrentToDo,
   allToDos,
   setAllToDos,
-  closeModal
+  closeModal,
 }: ModalComponentProps) => {
   const updateToDo = (e: React.ChangeEvent<HTMLTextAreaElement>) => setCurrentToDo(e.target.value);
   const submitToDo = (e: React.MouseEvent) => {
