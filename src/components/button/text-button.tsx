@@ -14,7 +14,7 @@ const getButton = (buttonType: string) => {
   }
 
   return Button;
-}
+};
 
 const TextButton = ({ type, buttonType, textMessage, onClick }: TextButtonProps) => {
   const Button = getButton(buttonType);

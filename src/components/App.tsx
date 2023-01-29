@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { useModal, useTodos } from './@hooks/hooks';
 import { COLORS, FONTSIZE } from 'components/@utils/style-util';
-import {ModalComponent} from './modal';
+import { ModalComponent } from './modal';
 import { TextButton, SvgIconButton } from './button';
 
 const App = () => {
@@ -87,17 +87,17 @@ const ToDoInput = styled.input`
 const ToDoLists = styled.ul<{
   isVisible: boolean;
 }>`
-  ${(props) =>
-    props.isVisible &&
+  ${({ isVisible }) =>
+    isVisible &&
     `
-      padding: 0;
-      list-style: none;
+    padding: 0;
+    list-style: none;
 
-      max-height: 500px;
-      overflow-y: auto;
-      scrollbar-gutter: auto;
+    max-height: 500px;
+    overflow-y: auto;
+    scrollbar-gutter: auto;
 
-      box-shadow: 0px 0px 2px rgb(0 0 0 / 10%);
+    box-shadow: 0px 0px 2px rgb(0 0 0 / 10%);
   `}
 `;
 
@@ -125,7 +125,7 @@ const Span = styled.span<{
   overflow: hidden;
   text-overflow: ellipsis;
 
-  text-decoration: ${(props) => props.lineThrough && `line-through ${COLORS.hightLight}`};
+  text-decoration: ${({ lineThrough }) => lineThrough && `line-through ${COLORS.hightLight}`};
 `;
 
 const Buttons = styled.div`

@@ -53,7 +53,7 @@ export default ModalComponent;
 const Background = styled.div<{
   isVisible: boolean;
 }>`
-  display: ${(props) => (props.isVisible ? 'block' : 'none')};
+  display: ${({ isVisible }) => (isVisible ? 'block' : 'none')};
 
   width: 100%;
   height: 100%;
