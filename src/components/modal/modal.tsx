@@ -3,7 +3,7 @@ import { createPortal } from 'react-dom';
 import { COLORS } from 'components/@utils/style-util';
 import styled from 'styled-components';
 import { ModalComponentProps } from 'components/@utils/type';
-import { TextButton, SvgIconButton } from './button';
+import { TextButton, SvgIconButton } from '../button';
 
 const ModalComponent = ({
   modalShow,

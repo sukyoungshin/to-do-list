@@ -15,7 +15,7 @@ export type ModalComponentProps = {
 
 export type TextButtonProps = {
   type: 'button' | 'submit';
-  buttonType: 'edit' | 'deleteAll' | 'submit' | undefined;
+  buttonType: 'edit' | 'deleteAll' | 'submit';
   textMessage: string;
   onClick?: MouseEventHandler;
 };

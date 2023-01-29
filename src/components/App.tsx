@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { useModal, useTodos } from './@hooks/hooks';
 import { COLORS, FONTSIZE } from 'components/@utils/style-util';
-import ModalComponent from './Modal';
+import {ModalComponent} from './modal';
 import { TextButton, SvgIconButton } from './button';
 
 const App = () => {
