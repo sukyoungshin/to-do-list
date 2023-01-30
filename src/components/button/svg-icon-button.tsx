@@ -1,10 +1,10 @@
 import { AiOutlineClose, AiOutlineDelete, AiOutlineEdit } from 'react-icons/ai';
 import { COLORS } from 'components/@utils/style-util';
 import styled from 'styled-components';
-import { SvgIconButtonProps } from 'components/@utils/type';
+import { IconName, SvgIconButtonProps } from 'components/@utils/type';
 import { IconType } from 'react-icons';
 
-const getButton = (iconName: string) => {
+const getButton = (iconName: IconName) => {
   let Button = DefaultButton;
   if (iconName === 'close') {
     Button = CloseButton;
@@ -13,7 +13,7 @@ const getButton = (iconName: string) => {
   return Button;
 };
 
-const getSvgIcon = (iconName: string) => {
+const getSvgIcon = (iconName: IconName) => {
   let SvgIcon: IconType | null = null;
   if (iconName === 'edit') {
     SvgIcon = AiOutlineEdit;

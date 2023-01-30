@@ -19,6 +19,9 @@ export type TextButtonProps = {
   onClick?: MouseEventHandler;
 };
 
+export type ButtonType = TextButtonProps['buttonType'];
+// interface ExtendsButtonType extends Pick<TextButtonProps, 'buttonType'> {};
+
 export type SvgIconButtonProps = {
   type: 'button';
   size: 'half' | 'full';
@@ -26,3 +29,5 @@ export type SvgIconButtonProps = {
   id?: string;
   onClick?: MouseEventHandler;
 };
+
+export type IconName = SvgIconButtonProps['iconName'];

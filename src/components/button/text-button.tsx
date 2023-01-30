@@ -1,8 +1,8 @@
 import { COLORS } from 'components/@utils/style-util';
 import styled from 'styled-components';
-import { TextButtonProps } from 'components/@utils/type';
+import { ButtonType, TextButtonProps } from 'components/@utils/type';
 
-const getButton = (buttonType: string) => {
+const getButton = (buttonType: ButtonType) => {
   let Button = DefaultButton;
 
   if (buttonType === 'edit') {
