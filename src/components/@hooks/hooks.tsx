@@ -20,7 +20,10 @@ export const useTodos = () => {
 
   const checkTodo = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id: selectedId, checked } = e.currentTarget;
-    const tempAllToDos = allToDos.filter((toDo) => (toDo.id === selectedId) ? toDo.done = checked: toDo);
+    const tempAllToDos = allToDos.map((toDo) => (toDo.id === selectedId) ? {
+      ...toDo,
+      done: checked
+    }: toDo);
     setAllToDos(tempAllToDos);
   };
 
