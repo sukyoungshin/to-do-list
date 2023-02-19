@@ -30,7 +30,7 @@ const App = () => {
           allToDos.map((toDo) => {
             return (
               <ToDoList key={toDo.id}>
-                <Checkbox type='checkbox' id={toDo.id} onChange={checkTodo} />
+                <Checkbox type='checkbox' id={toDo.id} checked={toDo.done} onChange={checkTodo} />
                 <Span lineThrough={toDo.done}>{toDo.todo}</Span>
                 <Buttons>
                   <SvgIconButton type='button' id={toDo.id} size='half' iconName='edit' onClick={modalHandler} />

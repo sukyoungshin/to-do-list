@@ -19,10 +19,9 @@ export const useTodos = () => {
   };
 
   const checkTodo = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { id: selectedId, checked } = e.target;
-    const toggleTodo: any = allToDos.filter((todo) => (todo.id === selectedId ? (todo.done = checked) : todo));
-
-    setTodo(toggleTodo);
+    const { id: selectedId, checked } = e.currentTarget;
+    const tempAllToDos = allToDos.filter((toDo) => (toDo.id === selectedId) ? toDo.done = checked: toDo);
+    setAllToDos(tempAllToDos);
   };
 
   const deleteTodo = (e: React.MouseEvent) => {
