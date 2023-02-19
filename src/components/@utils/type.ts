@@ -20,7 +20,6 @@ export type TextButtonProps = {
 };
 
 export type ButtonType = TextButtonProps['buttonType'];
-// interface ExtendsButtonType extends Pick<TextButtonProps, 'buttonType'> {};
 
 export type SvgIconButtonProps = {
   type: 'button';

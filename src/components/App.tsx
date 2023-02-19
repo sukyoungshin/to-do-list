@@ -31,7 +31,7 @@ const App = () => {
             return (
               <ToDoList key={toDo.id}>
                 <Checkbox type='checkbox' id={toDo.id} checked={toDo.done} onChange={checkTodo} />
-                <Span lineThrough={toDo.done}>{toDo.todo}</Span>
+                <Text>{toDo.todo}</Text>
                 <Buttons>
                   <SvgIconButton type='button' id={toDo.id} size='half' iconName='edit' onClick={modalHandler} />
                   <SvgIconButton type='button' id={toDo.id} size='half' iconName='delete' onClick={deleteTodo} />
@@ -113,20 +113,22 @@ const ToDoList = styled.li`
     background-color: ${COLORS.dimBackground};
   }
 `;
-const Checkbox = styled.input`
+const Checkbox = styled.input<{
+  checked: boolean;  
+}>`
   margin-right: 8px;
   width: 16px;
   height: 16px;
   accent-color: ${COLORS.hightLight};
+
+  &:checked ~ span {
+    text-decoration: ${({ checked }) => checked && `line-through ${COLORS.hightLight}`};    
+  }
 `;
-const Span = styled.span<{
-  lineThrough: boolean;
-}>`
+const Text = styled.span`
   width: calc(100% - 112px);
   overflow: hidden;
   text-overflow: ellipsis;
-
-  text-decoration: ${({ lineThrough }) => lineThrough && `line-through ${COLORS.hightLight}`};
 `;
 
 const Buttons = styled.div`
