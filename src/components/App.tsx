@@ -114,7 +114,7 @@ const ToDoList = styled.li`
   }
 `;
 const Checkbox = styled.input<{
-  checked: boolean;  
+  checked: boolean;
 }>`
   margin-right: 8px;
   width: 16px;
@@ -122,7 +122,7 @@ const Checkbox = styled.input<{
   accent-color: ${COLORS.hightLight};
 
   &:checked ~ span {
-    text-decoration: ${({ checked }) => checked && `line-through ${COLORS.hightLight}`};    
+    text-decoration: ${({ checked }) => checked && `line-through ${COLORS.hightLight}`};
   }
 `;
 const Text = styled.span`
