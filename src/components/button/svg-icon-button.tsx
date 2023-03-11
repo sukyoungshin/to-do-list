@@ -2,7 +2,10 @@ import { AiOutlineClose, AiOutlineDelete, AiOutlineEdit } from 'react-icons/ai';
 import { COLORS } from 'components/@utils/style-util';
 import styled from 'styled-components';
 import { IconName, SvgIconButtonProps } from 'components/@utils/type';
-import { IconType } from 'react-icons';
+
+const unhandledIconType = (type: never): never => {
+  throw new Error('Unknown iconType: ', type);
+}
 
 const getButton = (iconName: IconName) => {
   let Button = DefaultButton;
@@ -14,16 +17,17 @@ const getButton = (iconName: IconName) => {
 };
 
 const getSvgIcon = (iconName: IconName) => {
-  let SvgIcon: IconType | null = null;
-  if (iconName === 'edit') {
-    SvgIcon = AiOutlineEdit;
-  } else if (iconName === 'delete') {
-    SvgIcon = AiOutlineDelete;
-  } else if (iconName === 'close') {
-    SvgIcon = AiOutlineClose;
+  switch (iconName) {
+    case 'edit':
+      return AiOutlineEdit;
+    case 'delete':
+      return AiOutlineDelete;
+    case 'close':
+      return AiOutlineClose;
+    default:
+      unhandledIconType(iconName);
+      return null;
   }
-
-  return SvgIcon;
 };
 
 const SvgIconButton = ({ type, size = 'full', id, iconName, onClick }: SvgIconButtonProps) => {

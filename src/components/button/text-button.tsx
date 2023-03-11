@@ -2,18 +2,22 @@ import { COLORS } from 'components/@utils/style-util';
 import styled from 'styled-components';
 import { ButtonType, TextButtonProps } from 'components/@utils/type';
 
+const unhandledButtonType = (type: never): never => {
+  throw new Error('Unknown buttonType: ', type);
+}
+
 const getButton = (buttonType: ButtonType) => {
-  let Button = DefaultButton;
-
-  if (buttonType === 'edit') {
-    Button = EditButton;
-  } else if (buttonType === 'deleteAll') {
-    Button = DeleteAllButton;
-  } else if (buttonType === 'submit') {
-    Button = SubmitButton;
+  switch(buttonType) {
+    case 'edit':
+      return EditButton;
+    case 'deleteAll':
+      return DeleteAllButton;
+    case 'submit':
+      return SubmitButton;
+    default:
+      unhandledButtonType(buttonType);
+      return DefaultButton;
   }
-
-  return Button;
 };
 
 const TextButton = ({ type, buttonType, textMessage, onClick }: TextButtonProps) => {
