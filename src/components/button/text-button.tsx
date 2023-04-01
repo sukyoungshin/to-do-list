@@ -4,10 +4,10 @@ import { ButtonType, TextButtonProps } from 'components/@utils/type';
 
 const unhandledButtonType = (type: never): never => {
   throw new Error('Unknown buttonType: ', type);
-}
+};
 
 const getButton = (buttonType: ButtonType) => {
-  switch(buttonType) {
+  switch (buttonType) {
     case 'edit':
       return EditButton;
     case 'deleteAll':
@@ -32,9 +32,9 @@ const TextButton = ({ type, buttonType, textMessage, onClick }: TextButtonProps)
 
 export default TextButton;
 
+const ButtonWidth = '80px';
 const DefaultButton = styled.button`
   height: 32px;
-  border: none;
   border-radius: 4px;
 
   & > svg {
@@ -51,10 +51,10 @@ const EditButton = styled(DefaultButton)`
 `;
 
 const SubmitButton = styled(DefaultButton)`
-  width: 80px;
+  width: ${ButtonWidth};
 `;
 
 const DeleteAllButton = styled(DefaultButton)`
   margin-right: auto;
-  width: 80px;
+  width: ${ButtonWidth};
 `;

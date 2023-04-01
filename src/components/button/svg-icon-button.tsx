@@ -5,7 +5,7 @@ import { IconName, SvgIconButtonProps } from 'components/@utils/type';
 
 const unhandledIconType = (type: never): never => {
   throw new Error('Unknown iconType: ', type);
-}
+};
 
 const getButton = (iconName: IconName) => {
   let Button = DefaultButton;
@@ -26,7 +26,7 @@ const getSvgIcon = (iconName: IconName) => {
       return AiOutlineClose;
     default:
       unhandledIconType(iconName);
-      return null;
+      return false;
   }
 };
 
@@ -55,7 +55,6 @@ const DefaultButton = styled.button<{
   `};
 
   height: 32px;
-  border: none;
   border-radius: ${({ size }) => (size === 'half' ? 0 : 4)}px;
 
   & > svg {

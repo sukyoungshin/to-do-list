@@ -81,8 +81,7 @@ const ToDoForm = styled.form`
 
 const ToDoInput = styled.input`
   padding-left: 8px;
-  width: calc(100% - 80px);
-  border: none;
+  flex: 1;
 `;
 
 const ToDoLists = styled.ul<{
@@ -91,9 +90,6 @@ const ToDoLists = styled.ul<{
   ${({ isVisible }) =>
     isVisible &&
     `
-    padding: 0;
-    list-style: none;
-
     max-height: 500px;
     overflow-y: auto;
     scrollbar-gutter: auto;
@@ -126,7 +122,7 @@ const Checkbox = styled.input<{
   }
 `;
 const Text = styled.span`
-  width: calc(100% - 112px);
+  flex: 1;
   overflow: hidden;
   text-overflow: ellipsis;
 `;
@@ -143,5 +139,5 @@ const CountWrapper = styled.div`
 
 const Count = styled.span`
   font-size: ${FONTSIZE.small};
-  color: rgba(0, 0, 0, 0.5);
+  color: ${COLORS.grey};
 `;

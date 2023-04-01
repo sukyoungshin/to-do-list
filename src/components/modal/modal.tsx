@@ -13,7 +13,9 @@ const ModalComponent = ({
   setAllToDos,
   closeModal,
 }: ModalComponentProps) => {
-  const updateToDo = (e: React.ChangeEvent<HTMLTextAreaElement>) => setCurrentToDo(e.target.value);
+  const updateToDo = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setCurrentToDo(e.target.value);
+  };
   const submitToDo = (e: React.MouseEvent) => {
     e.preventDefault();
     const newTodo = { ...currentTodoObj, todo: currentTodo };
@@ -76,7 +78,4 @@ const TextArea = styled.textarea`
   padding: 8px;
   width: 100%;
   height: 100px;
-
-  resize: none;
-  box-sizing: border-box;
 `;
