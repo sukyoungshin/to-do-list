@@ -1,5 +1,7 @@
 import { MouseEventHandler } from 'react';
 
+export const defaultToDo = { id: '', todo: '', done: false };
+
 export type AllToDos = ToDo[];
 export type ToDo = { id: string; todo: string; done: boolean };
 

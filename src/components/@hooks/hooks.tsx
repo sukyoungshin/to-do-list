@@ -1,11 +1,11 @@
 import React, { FormEvent, useState } from 'react';
-import { AllToDos, ToDo } from 'components/@utils/type';
+import { AllToDos, defaultToDo, ToDo } from 'components/@utils/type';
 
 export const useTodos = () => {
   const [allToDos, setAllToDos] = useState<AllToDos>([]);
   const restToDos = allToDos.filter((todo) => todo.done === false);
 
-  const [todo, setTodo] = useState<ToDo>({ id: '', todo: '', done: false });
+  const [todo, setTodo] = useState<ToDo>({ ...defaultToDo });
   const addTodo = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     const randomId = (Date.now() * Math.ceil(Math.random() * 2)).toString();
@@ -14,7 +14,6 @@ export const useTodos = () => {
       ...todo,
       id: randomId,
       [name]: value,
-      done: false,
     });
   };
 
@@ -48,7 +47,7 @@ export const useTodos = () => {
   const submitHandler = (e: FormEvent) => {
     e.preventDefault();
     setAllToDos([...allToDos, todo]);
-    setTodo({ id: '', todo: '', done: false });
+    setTodo({ ...defaultToDo });
   };
 
   return {
@@ -67,7 +66,7 @@ export const useTodos = () => {
 export const useModal = (allToDos: AllToDos) => {
   const [modalShow, setModalShow] = useState(false);
   const [currentTodo, setCurrentToDo] = useState('');
-  const [currentTodoObj, setCurrentTodoObj] = useState<ToDo>({ id: '', todo: '', done: false });
+  const [currentTodoObj, setCurrentTodoObj] = useState<ToDo>({ ...defaultToDo });
 
   const openModal = () => setModalShow(true);
   const closeModal = () => setModalShow(false);
@@ -77,7 +76,7 @@ export const useModal = (allToDos: AllToDos) => {
 
     openModal();
     setCurrentToDo(selectedToDo?.todo ?? '');
-    setCurrentTodoObj(selectedToDo ?? { id: '', todo: '', done: false });
+    setCurrentTodoObj(selectedToDo ?? { ...defaultToDo });
   };
 
   return {
