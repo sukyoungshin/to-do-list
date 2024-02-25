@@ -8,26 +8,21 @@ const unhandledIconType = (type: never): never => {
 };
 
 const getButton = (iconName: IconName) => {
-  let Button = DefaultButton;
-  if (iconName === 'close') {
-    Button = CloseButton;
-  }
+  return iconName === 'close' ? CloseButton : DefaultButton;
+};
 
-  return Button;
+const svgIcon = {
+  edit: AiOutlineEdit,
+  delete: AiOutlineDelete,
+  close: AiOutlineClose,
 };
 
 const getSvgIcon = (iconName: IconName) => {
-  switch (iconName) {
-    case 'edit':
-      return AiOutlineEdit;
-    case 'delete':
-      return AiOutlineDelete;
-    case 'close':
-      return AiOutlineClose;
-    default:
-      unhandledIconType(iconName);
-      return false;
+  if (!iconName) {
+    unhandledIconType(iconName);
   }
+
+  return svgIcon[iconName];
 };
 
 const SvgIconButton = ({ type, size = 'full', id, iconName, onClick }: SvgIconButtonProps) => {
@@ -43,9 +38,11 @@ const SvgIconButton = ({ type, size = 'full', id, iconName, onClick }: SvgIconBu
 
 export default SvgIconButton;
 
-const DefaultButton = styled.button<{
+type ButtonPropsType = {
   size: SvgIconButtonProps['size'];
-}>`
+};
+
+const DefaultButton = styled.button<ButtonPropsType>`
   ${({ size }) =>
     size === 'half' &&
     `
