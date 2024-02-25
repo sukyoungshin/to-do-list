@@ -1,7 +1,7 @@
 import { AiOutlineClose, AiOutlineDelete, AiOutlineEdit } from 'react-icons/ai';
-import { COLORS } from 'components/@utils/style-util';
+import { COLORS } from 'components/utils/style-util';
 import styled from 'styled-components';
-import { IconName, SvgIconButtonProps } from 'components/@utils/type';
+import { IconName, SvgIconButtonProps } from 'components/utils/type';
 
 const unhandledIconType = (type: never): never => {
   throw new Error('Unknown iconType: ', type);

@@ -1,8 +1,8 @@
 import React from 'react';
 import { createPortal } from 'react-dom';
-import { COLORS } from 'components/@utils/style-util';
+import { COLORS } from 'components/utils/style-util';
 import styled from 'styled-components';
-import { ModalComponentProps } from 'components/@utils/type';
+import { ModalComponentProps } from 'components/utils/type';
 import { TextButton, SvgIconButton } from '../button';
 
 const ModalComponent = ({
@@ -39,7 +39,9 @@ const ModalComponent = ({
               autoFocus
               required
             />
-            <TextButton type='button' buttonType='edit' onClick={submitToDo}>수정</TextButton>
+            <TextButton type='button' buttonType='edit' onClick={submitToDo}>
+              수정
+            </TextButton>
           </Modal>
         </Background>,
         document.body

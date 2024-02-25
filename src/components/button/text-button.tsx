@@ -1,6 +1,6 @@
-import { COLORS } from 'components/@utils/style-util';
+import { COLORS } from 'components/utils/style-util';
 import styled from 'styled-components';
-import { ButtonType, TextButtonProps } from 'components/@utils/type';
+import { ButtonType, TextButtonProps } from 'components/utils/type';
 
 const unhandledButtonType = (type: never): never => {
   throw new Error('Unknown buttonType: ', type);
