@@ -19,9 +19,9 @@ const ModalComponent = ({
   const submitToDo = (e: React.MouseEvent) => {
     e.preventDefault();
     const newTodo = { ...currentTodoObj, todo: currentTodo };
-    const exclude = allToDos.filter((toDo) => toDo.id !== currentTodoObj.id);
+    const updateToDos = allToDos.map((toDo) => (toDo.id === newTodo.id ? (toDo = newTodo) : toDo));
 
-    setAllToDos([newTodo, ...exclude]);
+    setAllToDos([...updateToDos]);
     closeModal();
   };
 
@@ -65,7 +65,6 @@ const Background = styled.div`
 const Modal = styled.div`
   padding: 16px;
   width: 500px;
-  height: 200px;
   background-color: ${COLORS.white};
   border-radius: 8px;
 
