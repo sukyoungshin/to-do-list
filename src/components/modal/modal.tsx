@@ -28,7 +28,7 @@ const ModalComponent = ({
   return (
     <>
       {createPortal(
-        <Background>
+        <Background onClick={closeModal}>
           <Modal>
             <SvgIconButton type='button' size='full' iconName='close' onClick={closeModal} />
             <TextArea
