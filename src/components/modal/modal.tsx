@@ -39,7 +39,7 @@ const ModalComponent = ({
               autoFocus
               required
             />
-            <TextButton type='button' buttonType='edit' textMessage='수정' onClick={submitToDo} />
+            <TextButton type='button' buttonType='edit' onClick={submitToDo}>수정</TextButton>
           </Modal>
         </Background>,
         document.body

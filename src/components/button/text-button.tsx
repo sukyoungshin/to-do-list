@@ -20,12 +20,12 @@ const getButton = (buttonType: ButtonType) => {
   }
 };
 
-const TextButton = ({ type, buttonType, textMessage, onClick }: TextButtonProps) => {
+const TextButton = ({ type, buttonType, onClick, children }: React.PropsWithChildren<TextButtonProps>) => {
   const Button = getButton(buttonType);
 
   return (
     <Button type={type} onClick={onClick}>
-      {textMessage}
+      {children}
     </Button>
   );
 };

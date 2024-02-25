@@ -23,7 +23,9 @@ const App = () => {
           autoFocus
           required
         />
-        <TextButton type='submit' buttonType='submit' textMessage='등록' />
+        <TextButton type='submit' buttonType='submit'>
+          등록
+        </TextButton>
       </ToDoForm>
       <ToDoLists isVisible={allToDos.length > 0}>
         {allToDos.length > 0 &&
@@ -41,7 +43,9 @@ const App = () => {
           })}
       </ToDoLists>
       <CountWrapper>
-        <TextButton type='button' buttonType='deleteAll' textMessage='전체 삭제' onClick={deleteAll} />
+        <TextButton type='button' buttonType='deleteAll' onClick={deleteAll}>
+          전체 삭제
+        </TextButton>
         <Count>
           남은 할 일: {restToDos.length} / 전체 할 일: {allToDos.length}
         </Count>
