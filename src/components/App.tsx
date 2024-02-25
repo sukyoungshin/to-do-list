@@ -1,8 +1,9 @@
 import styled from 'styled-components';
-import { useModal, useTodos } from './@hooks/hooks';
-import { COLORS, FONTSIZE } from 'components/@utils/style-util';
+import { useTodos } from './hooks/useTodos';
+import { COLORS, FONTSIZE } from 'components/utils/style-util';
 import { ModalComponent } from './modal';
 import { TextButton, SvgIconButton } from './button';
+import { useModal } from './hooks/useModal';
 
 const App = () => {
   const { addTodo, checkTodo, deleteTodo, deleteAll, submitHandler, allToDos, setAllToDos, restToDos, todo } =
