@@ -1,37 +1,32 @@
 import { AiOutlineClose, AiOutlineDelete, AiOutlineEdit } from 'react-icons/ai';
-import { COLORS } from 'components/@utils/style-util';
+import { COLORS } from 'components/utils/style-util';
 import styled from 'styled-components';
-import { IconName, SvgIconButtonProps } from 'components/@utils/type';
+import { IconName, SvgIconButtonProps } from 'components/utils/type';
 
 const unhandledIconType = (type: never): never => {
   throw new Error('Unknown iconType: ', type);
 };
 
-const getButton = (iconName: IconName) => {
-  let Button = DefaultButton;
-  if (iconName === 'close') {
-    Button = CloseButton;
-  }
+const getStyledButton = (iconName: IconName) => {
+  return iconName === 'close' ? CloseButton : DefaultButton;
+};
 
-  return Button;
+const svgIcon = {
+  edit: AiOutlineEdit,
+  delete: AiOutlineDelete,
+  close: AiOutlineClose,
 };
 
 const getSvgIcon = (iconName: IconName) => {
-  switch (iconName) {
-    case 'edit':
-      return AiOutlineEdit;
-    case 'delete':
-      return AiOutlineDelete;
-    case 'close':
-      return AiOutlineClose;
-    default:
-      unhandledIconType(iconName);
-      return false;
+  if (!iconName) {
+    unhandledIconType(iconName);
   }
+
+  return svgIcon[iconName];
 };
 
 const SvgIconButton = ({ type, size = 'full', id, iconName, onClick }: SvgIconButtonProps) => {
-  const Button = getButton(iconName);
+  const Button = getStyledButton(iconName);
   const SvgIcon = getSvgIcon(iconName);
 
   return (
@@ -43,9 +38,11 @@ const SvgIconButton = ({ type, size = 'full', id, iconName, onClick }: SvgIconBu
 
 export default SvgIconButton;
 
-const DefaultButton = styled.button<{
+type ButtonPropsType = {
   size: SvgIconButtonProps['size'];
-}>`
+};
+
+const DefaultButton = styled.button<ButtonPropsType>`
   ${({ size }) =>
     size === 'half' &&
     `

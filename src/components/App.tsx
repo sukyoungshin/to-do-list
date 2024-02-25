@@ -1,13 +1,21 @@
 import styled from 'styled-components';
-import { useModal, useTodos } from './@hooks/hooks';
-import { COLORS, FONTSIZE } from 'components/@utils/style-util';
+import { useTodos } from './hooks/useTodos';
+import { COLORS, FONTSIZE } from 'components/utils/style-util';
 import { ModalComponent } from './modal';
 import { TextButton, SvgIconButton } from './button';
+import { useCurrentToDoId } from './hooks/useCurrentToDoId';
+import { useModalHandler } from './hooks/useModalHandler';
 
 const App = () => {
-  const { addTodo, checkTodo, deleteTodo, deleteAll, submitHandler, allToDos, setAllToDos, restToDos, todo } =
-    useTodos();
-  const { modalHandler, setCurrentToDo, closeModal, currentTodoObj, currentTodo, modalShow } = useModal(allToDos);
+  const { addTodo, checkTodo, deleteTodo, deleteAll, submitHandler, allToDos, setAllToDos, todo } = useTodos();
+
+  const { currentToDoId, updateCurrentToDoId } = useCurrentToDoId();
+  const { modalShow, openModal, closeModal } = useModalHandler();
+
+  // 전체 투두 갯수
+  const allToDosCount = allToDos.length;
+  // 남은 투두 갯수
+  const restToDosCount = allToDos.filter((todo) => !todo.done).length;
 
   return (
     <Container>
@@ -23,34 +31,45 @@ const App = () => {
           autoFocus
           required
         />
-        <TextButton type='submit' buttonType='submit' textMessage='등록' />
+        <TextButton type='submit' buttonType='submit'>
+          등록
+        </TextButton>
       </ToDoForm>
       <ToDoLists isVisible={allToDos.length > 0}>
         {allToDos.length > 0 &&
-          allToDos.map((toDo) => {
+          allToDos.map(({ id, todo, done }) => {
             return (
-              <ToDoList key={toDo.id}>
-                <Checkbox type='checkbox' id={toDo.id} checked={toDo.done} onChange={checkTodo} />
-                <Text>{toDo.todo}</Text>
+              <ToDoList key={id}>
+                <Checkbox type='checkbox' id={id} checked={done} onChange={checkTodo} />
+                <Text>{todo}</Text>
                 <Buttons>
-                  <SvgIconButton type='button' id={toDo.id} size='half' iconName='edit' onClick={modalHandler} />
-                  <SvgIconButton type='button' id={toDo.id} size='half' iconName='delete' onClick={deleteTodo} />
+                  <SvgIconButton
+                    type='button'
+                    id={id}
+                    size='half'
+                    iconName='edit'
+                    onClick={(e) => {
+                      openModal();
+                      updateCurrentToDoId(e);
+                    }}
+                  />
+                  <SvgIconButton type='button' id={id} size='half' iconName='delete' onClick={deleteTodo} />
                 </Buttons>
               </ToDoList>
             );
           })}
       </ToDoLists>
       <CountWrapper>
-        <TextButton type='button' buttonType='deleteAll' textMessage='전체 삭제' onClick={deleteAll} />
+        <TextButton type='button' buttonType='deleteAll' onClick={deleteAll}>
+          전체 삭제
+        </TextButton>
         <Count>
-          남은 할 일: {restToDos.length} / 전체 할 일: {allToDos.length}
+          남은 할 일: {restToDosCount} / 전체 할 일: {allToDosCount}
         </Count>
       </CountWrapper>
       {modalShow && (
         <ModalComponent
-          currentTodo={currentTodo}
-          setCurrentToDo={setCurrentToDo}
-          currentTodoObj={currentTodoObj}
+          currentToDoId={currentToDoId}
           allToDos={allToDos}
           setAllToDos={setAllToDos}
           closeModal={closeModal}

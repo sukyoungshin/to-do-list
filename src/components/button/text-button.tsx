@@ -1,6 +1,6 @@
-import { COLORS } from 'components/@utils/style-util';
+import { COLORS } from 'components/utils/style-util';
 import styled from 'styled-components';
-import { ButtonType, TextButtonProps } from 'components/@utils/type';
+import { ButtonType, TextButtonProps } from 'components/utils/type';
 
 const unhandledButtonType = (type: never): never => {
   throw new Error('Unknown buttonType: ', type);
@@ -20,12 +20,12 @@ const getButton = (buttonType: ButtonType) => {
   }
 };
 
-const TextButton = ({ type, buttonType, textMessage, onClick }: TextButtonProps) => {
+const TextButton = ({ type, buttonType, onClick, children }: React.PropsWithChildren<TextButtonProps>) => {
   const Button = getButton(buttonType);
 
   return (
     <Button type={type} onClick={onClick}>
-      {textMessage}
+      {children}
     </Button>
   );
 };
