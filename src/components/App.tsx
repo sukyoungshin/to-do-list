@@ -3,17 +3,19 @@ import { useTodos } from './hooks/useTodos';
 import { COLORS, FONTSIZE } from 'components/utils/style-util';
 import { ModalComponent } from './modal';
 import { TextButton, SvgIconButton } from './button';
-import { useModal } from './hooks/useModal';
+import { useCurrentToDoId } from './hooks/useCurrentToDoId';
 import { useModalHandler } from './hooks/useModalHandler';
 
 const App = () => {
   const { addTodo, checkTodo, deleteTodo, deleteAll, submitHandler, allToDos, setAllToDos, todo } = useTodos();
 
-  const { currentId, setCurrentToDoId } = useModal();
+  const { currentToDoId, updateCurrentToDoId } = useCurrentToDoId();
   const { modalShow, openModal, closeModal } = useModalHandler();
 
-  // 투두
-  const restToDos = allToDos.filter((todo) => todo.done === false);
+  // 전체 투두 갯수
+  const allToDosCount = allToDos.length;
+  // 남은 투두 갯수
+  const restToDosCount = allToDos.filter((todo) => !todo.done).length;
 
   return (
     <Container>
@@ -48,7 +50,7 @@ const App = () => {
                     iconName='edit'
                     onClick={(e) => {
                       openModal();
-                      setCurrentToDoId(e);
+                      updateCurrentToDoId(e);
                     }}
                   />
                   <SvgIconButton type='button' id={id} size='half' iconName='delete' onClick={deleteTodo} />
@@ -62,12 +64,12 @@ const App = () => {
           전체 삭제
         </TextButton>
         <Count>
-          남은 할 일: {restToDos.length} / 전체 할 일: {allToDos.length}
+          남은 할 일: {restToDosCount} / 전체 할 일: {allToDosCount}
         </Count>
       </CountWrapper>
       {modalShow && (
         <ModalComponent
-          currentToDoId={currentId}
+          currentToDoId={currentToDoId}
           allToDos={allToDos}
           setAllToDos={setAllToDos}
           closeModal={closeModal}
