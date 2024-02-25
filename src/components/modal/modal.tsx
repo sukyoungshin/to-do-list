@@ -29,7 +29,7 @@ const ModalComponent = ({
     <>
       {createPortal(
         <Background onClick={closeModal}>
-          <Modal>
+          <Modal onClick={(e) => e.stopPropagation()}>
             <SvgIconButton type='button' size='full' iconName='close' onClick={closeModal} />
             <TextArea
               placeholder='수정할 투두 내용을 입력하세요. 최대 입력글자는 50글자 입니다.'
