@@ -7,7 +7,7 @@ const unhandledIconType = (type: never): never => {
   throw new Error('Unknown iconType: ', type);
 };
 
-const getButton = (iconName: IconName) => {
+const getStyledButton = (iconName: IconName) => {
   return iconName === 'close' ? CloseButton : DefaultButton;
 };
 
@@ -26,7 +26,7 @@ const getSvgIcon = (iconName: IconName) => {
 };
 
 const SvgIconButton = ({ type, size = 'full', id, iconName, onClick }: SvgIconButtonProps) => {
-  const Button = getButton(iconName);
+  const Button = getStyledButton(iconName);
   const SvgIcon = getSvgIcon(iconName);
 
   return (
