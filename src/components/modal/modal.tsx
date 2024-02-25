@@ -1,25 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { createPortal } from 'react-dom';
 import { COLORS } from 'components/utils/style-util';
 import styled from 'styled-components';
 import { ModalComponentProps } from 'components/utils/type';
 import { TextButton, SvgIconButton } from '../button';
 
-const ModalComponent = ({
-  currentTodo,
-  currentTodoObj,
-  setCurrentToDo,
-  allToDos,
-  setAllToDos,
-  closeModal,
-}: ModalComponentProps) => {
+const ModalComponent = ({ currentToDoId, allToDos, setAllToDos, closeModal }: ModalComponentProps) => {
+  const initialToDo = allToDos.filter((todo) => todo.id === currentToDoId)[0].todo;
+  const [currentToDo, setCurrentToDo] = useState<string>(initialToDo);
   const updateToDo = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setCurrentToDo(e.target.value);
   };
   const submitToDo = (e: React.MouseEvent) => {
     e.preventDefault();
-    const newTodo = { ...currentTodoObj, todo: currentTodo };
-    const updateToDos = allToDos.map((toDo) => (toDo.id === newTodo.id ? (toDo = newTodo) : toDo));
+    const updateToDos = allToDos.map((toDo) => (toDo.id === currentToDoId ? { ...toDo, todo: currentToDo } : toDo));
 
     setAllToDos([...updateToDos]);
     closeModal();
@@ -33,7 +27,7 @@ const ModalComponent = ({
             <SvgIconButton type='button' size='full' iconName='close' onClick={closeModal} />
             <TextArea
               placeholder='수정할 투두 내용을 입력하세요. 최대 입력글자는 50글자 입니다.'
-              value={currentTodo}
+              value={currentToDo}
               onChange={updateToDo}
               maxLength={50}
               autoFocus

@@ -4,20 +4,16 @@ import { COLORS, FONTSIZE } from 'components/utils/style-util';
 import { ModalComponent } from './modal';
 import { TextButton, SvgIconButton } from './button';
 import { useModal } from './hooks/useModal';
-import { useState } from 'react';
+import { useModalHandler } from './hooks/useModalHandler';
 
 const App = () => {
-  const [modalShow, setModalShow] = useState(false);
-
   const { addTodo, checkTodo, deleteTodo, deleteAll, submitHandler, allToDos, setAllToDos, todo } = useTodos();
-  const { modalHandler, setCurrentToDo, currentTodoObj, currentTodo } = useModal(allToDos);
+
+  const { currentId, setCurrentToDoId } = useModal();
+  const { modalShow, openModal, closeModal } = useModalHandler();
 
   // 투두
   const restToDos = allToDos.filter((todo) => todo.done === false);
-
-  // modal 핸들러
-  const openModal = () => setModalShow(true);
-  const closeModal = () => setModalShow(false);
 
   return (
     <Container>
@@ -39,23 +35,23 @@ const App = () => {
       </ToDoForm>
       <ToDoLists isVisible={allToDos.length > 0}>
         {allToDos.length > 0 &&
-          allToDos.map((toDo) => {
+          allToDos.map(({ id, todo, done }) => {
             return (
-              <ToDoList key={toDo.id}>
-                <Checkbox type='checkbox' id={toDo.id} checked={toDo.done} onChange={checkTodo} />
-                <Text>{toDo.todo}</Text>
+              <ToDoList key={id}>
+                <Checkbox type='checkbox' id={id} checked={done} onChange={checkTodo} />
+                <Text>{todo}</Text>
                 <Buttons>
                   <SvgIconButton
                     type='button'
-                    id={toDo.id}
+                    id={id}
                     size='half'
                     iconName='edit'
                     onClick={(e) => {
                       openModal();
-                      modalHandler(e);
+                      setCurrentToDoId(e);
                     }}
                   />
-                  <SvgIconButton type='button' id={toDo.id} size='half' iconName='delete' onClick={deleteTodo} />
+                  <SvgIconButton type='button' id={id} size='half' iconName='delete' onClick={deleteTodo} />
                 </Buttons>
               </ToDoList>
             );
@@ -71,9 +67,7 @@ const App = () => {
       </CountWrapper>
       {modalShow && (
         <ModalComponent
-          currentTodo={currentTodo}
-          setCurrentToDo={setCurrentToDo}
-          currentTodoObj={currentTodoObj}
+          currentToDoId={currentId}
           allToDos={allToDos}
           setAllToDos={setAllToDos}
           closeModal={closeModal}

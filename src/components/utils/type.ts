@@ -6,9 +6,7 @@ export type AllToDos = ToDo[];
 export type ToDo = { id: string; todo: string; done: boolean };
 
 export type ModalComponentProps = {
-  currentTodo: string;
-  currentTodoObj: ToDo;
-  setCurrentToDo: (args: string) => void;
+  currentToDoId: string;
   allToDos: AllToDos;
   setAllToDos: (args: AllToDos) => void;
   closeModal: () => void;
