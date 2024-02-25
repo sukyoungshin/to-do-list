@@ -3,7 +3,6 @@ import { AllToDos, defaultToDo, ToDo } from 'components/utils/type';
 
 export const useTodos = () => {
   const [allToDos, setAllToDos] = useState<AllToDos>([]);
-  const restToDos = allToDos.filter((todo) => todo.done === false);
 
   const [todo, setTodo] = useState<ToDo>({ ...defaultToDo });
   const addTodo = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -58,7 +57,6 @@ export const useTodos = () => {
     submitHandler,
     allToDos,
     setAllToDos,
-    restToDos,
     todo,
   };
 };

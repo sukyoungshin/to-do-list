@@ -4,11 +4,20 @@ import { COLORS, FONTSIZE } from 'components/utils/style-util';
 import { ModalComponent } from './modal';
 import { TextButton, SvgIconButton } from './button';
 import { useModal } from './hooks/useModal';
+import { useState } from 'react';
 
 const App = () => {
-  const { addTodo, checkTodo, deleteTodo, deleteAll, submitHandler, allToDos, setAllToDos, restToDos, todo } =
-    useTodos();
-  const { modalHandler, setCurrentToDo, closeModal, currentTodoObj, currentTodo, modalShow } = useModal(allToDos);
+  const [modalShow, setModalShow] = useState(false);
+
+  const { addTodo, checkTodo, deleteTodo, deleteAll, submitHandler, allToDos, setAllToDos, todo } = useTodos();
+  const { modalHandler, setCurrentToDo, currentTodoObj, currentTodo } = useModal(allToDos);
+
+  // 투두
+  const restToDos = allToDos.filter((todo) => todo.done === false);
+
+  // modal 핸들러
+  const openModal = () => setModalShow(true);
+  const closeModal = () => setModalShow(false);
 
   return (
     <Container>
@@ -36,7 +45,16 @@ const App = () => {
                 <Checkbox type='checkbox' id={toDo.id} checked={toDo.done} onChange={checkTodo} />
                 <Text>{toDo.todo}</Text>
                 <Buttons>
-                  <SvgIconButton type='button' id={toDo.id} size='half' iconName='edit' onClick={modalHandler} />
+                  <SvgIconButton
+                    type='button'
+                    id={toDo.id}
+                    size='half'
+                    iconName='edit'
+                    onClick={(e) => {
+                      openModal();
+                      modalHandler(e);
+                    }}
+                  />
                   <SvgIconButton type='button' id={toDo.id} size='half' iconName='delete' onClick={deleteTodo} />
                 </Buttons>
               </ToDoList>
